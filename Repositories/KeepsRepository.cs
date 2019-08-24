@@ -49,6 +49,9 @@ namespace keepr.Repositories
     //   // --age = 81
     //   // -- WHERE ID = 4;
     // }
+
+    // Also to make things more simplistic once a keep is marked public it can no longer be deleted.
+    // do deletingkeep = GetKeepById first, then if (deletingkeep.isPrivate), then carry on with delete
     public void DeleteKeep(int id)
     {
       var success = _db.Execute("DELETE FROM keeps WHERE id = @id", new { id });

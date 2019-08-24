@@ -15,10 +15,15 @@
             <p v-if="loginForm">No account Click to Register</p>
             <p v-else>Already have an account click to Login</p>
         </div>
+        <div class="keeps">
+            <HomeKeepsComponent></HomeKeepsComponent>
+        </div>
     </div>
 </template>
 
 <script>
+    import HomeKeepsComponent from '../components/HomeKeepsComponent.vue'
+
     export default {
         name: "login",
         data() {
@@ -35,9 +40,9 @@
                 }
             };
         },
-        beforeCreate(){
-            if(this.$store.state.user.id){
-                this.$router.push({name: "home"})
+        beforeCreate() {
+            if (this.$store.state.user.id) {
+                this.$router.push({ name: "home" })
             }
         },
         methods: {
@@ -47,6 +52,9 @@
             loginUser() {
                 this.$store.dispatch("login", this.creds);
             }
+        },
+        components: {
+            HomeKeepsComponent
         }
     };
 </script>
