@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using keepr.Models;
 using keepr.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace keepr.Controllers
 {
+  [Authorize]
   [Route("api/[controller]")]
   [ApiController]
   public class VaultsController : ControllerBase
@@ -21,7 +24,8 @@ namespace keepr.Controllers
     {
       try
       {
-        return Ok(_repo.GetVaults());
+        string userId = HttpContext.User.FindFirstValue("Id");
+        return Ok(_repo.GetVaults(userId));
       }
       catch (Exception e)
       {
@@ -49,6 +53,7 @@ namespace keepr.Controllers
     {
       try
       {
+        vault.UserId = HttpContext.User.FindFirstValue("Id");
         return Ok(_repo.CreateVault(vault));
       }
       catch (Exception e)
@@ -60,15 +65,19 @@ namespace keepr.Controllers
     [HttpDelete("{id}")]
     public ActionResult<string> Delete(int id)
     {
-      try
+      string userId = HttpContext.User.FindFirstValue("Id");
+      if (userId.Contains(userId))
       {
-        _repo.DeleteVault(id);
-        return Ok("Successfully Deleted");
+        try
+        {
+          _repo.DeleteVault(id);
+        }
+        catch (Exception e)
+        {
+          return BadRequest("Delete failed");
+        }
       }
-      catch (Exception e)
-      {
-        return BadRequest("Delete failed");
-      }
+      return Ok("Successfully Deleted");
     }
   }
 }
