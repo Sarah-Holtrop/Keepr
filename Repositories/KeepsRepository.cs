@@ -23,7 +23,10 @@ namespace keepr.Repositories
     {
       return _db.QueryFirstOrDefault<Keep>("SELECT * FROM keeps WHERE id = @id", new { id });
     }
-
+    public IEnumerable<Keep> GetKeepsByUserId(string userId)
+    {
+      return _db.Query<Keep>("SELECT * FROM keeps WHERE userId = @userId", new { userId });
+    }
 
 
     public Keep CreateKeep(Keep keep)
@@ -56,6 +59,16 @@ namespace keepr.Repositories
 
     // Also to make things more simplistic once a keep is marked public it can no longer be deleted.
     // do deletingkeep = GetKeepById first, then if (deletingkeep.isPrivate), then carry on with delete
+
+    public void EditKeep(Keep keep)
+    {
+      // name, description, image, private
+      var success = _db.Execute("UPDATE keeps SET name = @Name, description = @Description, img = @Img, isPrivate = @IsPrivate");
+      if (success == 0)
+      {
+        throw new Exception("Update failed");
+      }
+    }
     public void DeleteKeep(int id)
     {
       var success = _db.Execute("DELETE FROM keeps WHERE id = @id", new { id });

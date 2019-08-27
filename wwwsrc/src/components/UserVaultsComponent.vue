@@ -10,7 +10,8 @@
             <h4>{{vault.description}}</h4>
           </div>
           <div class="card-footer">
-            <button class="btn btn-info">Enter Vault</button>
+            <button @click="enterVault(vault)" class="btn btn-info">Enter Vault</button>
+            <button @click="deleteVault(vault.id)" class="btn btn-danger">delete vault</button>
           </div>
         </div>
       </div>
@@ -31,7 +32,15 @@
         return this.$store.state.userVaults
       }
     },
-    methods: {},
+    methods: {
+      enterVault(vault) {
+        // console.log(vault.id)
+        this.$router.push({ name: "ActiveVault", params: { vId: vault.id } })
+      },
+      deleteVault(id) {
+        this.$store.dispatch("deleteVault", id)
+      }
+    },
     components: {}
   }
 </script>

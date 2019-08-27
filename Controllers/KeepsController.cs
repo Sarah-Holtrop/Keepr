@@ -21,32 +21,46 @@ namespace keepr.Controllers
     }
     // Get all, for testing but probably won't actually need
     [HttpGet]
-    public ActionResult<IEnumerable<Keep>> Get()
-    {
-
-      try
-      {
-        return Ok(_repo.GetKeeps());
-      }
-      catch (Exception e)
-      {
-
-        return BadRequest(e.Message);
-      }
-    }
-    // Get by Id
-    // [HttpGet("{id}")]
-    // public ActionResult<Keep> Get(int id)
+    // public ActionResult<IEnumerable<Keep>> Get()
     // {
+
     //   try
     //   {
-    //     return Ok(_repo.GetKeepById(id));
+    //     return Ok(_repo.GetKeeps());
     //   }
     //   catch (Exception e)
     //   {
+
     //     return BadRequest(e.Message);
     //   }
     // }
+    // Get by Id
+    [HttpGet("{id}")]
+    public ActionResult<Keep> Get(int id)
+    {
+      try
+      {
+        return Ok(_repo.GetKeepById(id));
+      }
+      catch (Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
+    [Authorize]
+    [HttpGet("user")]
+    public ActionResult<IEnumerable<Keep>> Get()
+    {
+      string userId = HttpContext.User.FindFirstValue("Id");
+      try
+      {
+        return Ok(_repo.GetKeepsByUserId(userId));
+      }
+      catch (Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
     [Authorize]
     // post, might need to refactor for posting with userId?
     [HttpPost]
@@ -82,7 +96,18 @@ namespace keepr.Controllers
       }
       return Ok("Successfully Deleted");
     }
-
-    // Need getKeepsByVaultId or something, but need to figure out table join first
+    [HttpPut("{keepId}")]
+    public ActionResult<string> Put(int keepId, [FromBody]Keep keep)
+    {
+      try
+      {
+        _repo.EditKeep(keep);
+        return Ok("Keep Updated");
+      }
+      catch (Exception e)
+      {
+        return BadRequest("Cannot edit keep");
+      }
+    }
   }
 }

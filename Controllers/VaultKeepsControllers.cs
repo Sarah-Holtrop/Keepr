@@ -18,19 +18,7 @@ namespace keepr.Controllers
     {
       _repo = repo;
     }
-    // Get all, for testing but probably won't actually need
-    // [HttpGet]
-    // public ActionResult<IEnumerable<VaultKeep>> Get()
-    // {
-    //   try
-    //   {
-    //     return Ok(_repo.GetVaultKeeps());
-    //   }
-    //   catch (Exception e)
-    //   {
 
-    //     return BadRequest(e.Message);
-    //   }
     // }
     // Get by Id
     // [HttpGet("{id}")]
@@ -99,20 +87,20 @@ namespace keepr.Controllers
         return BadRequest("Delete failed");
       }
     }
-    [HttpGet]
-    public ActionResult<IEnumerable<Keep>> Get()
-    {
-      try
-      {
-        return Ok(_repo.GetVaultKeeps());
-      }
-      catch (Exception e)
-      {
-        return BadRequest(e.Message);
-      }
-    }
+    // [HttpGet]
+    // public ActionResult<IEnumerable<Keep>> Get()
+    // {
+    //   try
+    //   {
+    //     return Ok(_repo.GetVaultKeeps());
+    //   }
+    //   catch (Exception e)
+    //   {
+    //     return BadRequest(e.Message);
+    //   }
+    // }
 
-    [HttpGet("{vaultId}/keeps")]
+    [HttpGet("{vaultId}")]
     public ActionResult<IEnumerable<Keep>> Get(int vaultId)
     {
       string userId = HttpContext.User.FindFirstValue("Id");

@@ -23,10 +23,10 @@ namespace keepr.Repositories
     //   return _db.Query<VaultKeep>("SELECT * FROM vaultkeeps");
     // }
 
-    // public VaultKeep GetVaultKeepById(int id)
-    // {
-    //   return _db.QueryFirstOrDefault<VaultKeep>("SELECT * FROM vaultkeeps WHERE id = @id", new { id });
-    // }
+    public VaultKeep GetVaultKeepById(int id)
+    {
+      return _db.QueryFirstOrDefault<VaultKeep>("SELECT * FROM vaultkeeps WHERE id = @id", new { id });
+    }
 
     public VaultKeep AddKeepToVault(VaultKeep vaultKeep)
     {
@@ -46,10 +46,10 @@ namespace keepr.Repositories
         WHERE vaultId = @vaultId AND vk.userId = @userId;", new { vaultId, userId });
     }
 
-    public IEnumerable<VaultKeep> GetVaultKeeps()
-    {
-      return _db.Query<VaultKeep>("SELECT * FROM vaultkeeps");
-    }
+    // public IEnumerable<VaultKeep> GetVaultKeeps()
+    // {
+    //   return _db.Query<VaultKeep>("SELECT * FROM vaultkeeps");
+    // }
     public void DeleteVaultKeep(int id)
     {
       var success = _db.Execute("DELETE FROM vaultkeepss WHERE id = @id", new { id });

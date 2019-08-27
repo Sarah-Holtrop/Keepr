@@ -18,7 +18,9 @@ export default new Vuex.Store({
   state: {
     user: {},
     keeps: [],
-    userVaults: []
+    userVaults: [],
+    activeVault: {},
+    vaultKeeps: []
   },
   mutations: {
     setUser(state, user) {
@@ -33,6 +35,12 @@ export default new Vuex.Store({
     },
     setUserVaults(state, data) {
       state.userVaults = data
+    },
+    setActiveVault(state, data) {
+      state.activeVault = data
+    },
+    setVaultKeeps(state, data) {
+      state.vaultKeeps = data
     }
   },
   actions: {
@@ -88,6 +96,40 @@ export default new Vuex.Store({
       } catch (error) {
         console.error(error)
       }
+    },
+    async getVaultById({ commit, dispatch }, payload) {
+      try {
+        let res = await api.get('vaults/' + payload)
+        commit("setActiveVault", res.data)
+        dispatch("getKeepsByVaultId", payload)
+        // let res = await api.get('vaults/' + payload.id)
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    async createVault({ commit, dispatch }, payload) {
+      try {
+        await api.post('vaults', payload)
+        dispatch('getVaultsByUserId')
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    async deleteVault({ commit, dispatch }, payload) {
+      try {
+        await api.delete('vaults/' + payload)
+        console.log('Vault deleted')
+        dispatch('getVaultsByUserId')
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    // #endregion
+    // #region VAULTKEEP METHODS
+    async getKeepsByVaultId({ commit, dispatch }, payload) {
+      let res = await api.get('vaultkeeps/' + payload, payload)
+      commit("setVaultKeeps", res.data)
+      console.log(res.data)
     }
     // #endregion
   }
