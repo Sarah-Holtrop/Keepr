@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
+// I usually recommend adding a method to your vaultsrepo called
+// GetVault(string userId, int vaultId)
+
 namespace keepr.Repositories
 {
   public class VaultsRepository
@@ -41,6 +44,7 @@ namespace keepr.Repositories
 
       return vault;
     }
+
     public void DeleteVault(int id)
     {
       var success = _db.Execute("DELETE FROM vaults WHERE id = @id", new { id });
@@ -49,6 +53,7 @@ namespace keepr.Repositories
         throw new Exception("Delete failed");
       }
     }
+
 
   }
 }

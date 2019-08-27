@@ -18,26 +18,37 @@ namespace keepr.Repositories
     }
 
     // SECTION CRUD methods
+    // public IEnumerable<VaultKeep> GetKeepsByVaultId()
+    // {
+    //   return _db.Query<VaultKeep>("SELECT * FROM vaultkeeps");
+    // }
+
+    // public VaultKeep GetVaultKeepById(int id)
+    // {
+    //   return _db.QueryFirstOrDefault<VaultKeep>("SELECT * FROM vaultkeeps WHERE id = @id", new { id });
+    // }
+
+    public VaultKeep AddKeepToVault(VaultKeep vaultKeep)
+    {
+      int id = _db.ExecuteScalar<int>(@"
+      INSERT INTO vaultkeeps (vaultId, keepId, userId)
+      VALUES (@VaultId, @KeepId, @UserId);
+      SELECT LAST_INSERT_ID();
+      ", vaultKeep);
+      vaultKeep.Id = id;
+      return vaultKeep;
+    }
+    public IEnumerable<Keep> GetKeepsByVaultId(int vaultId, string userId)
+    {
+      return _db.Query<Keep>(@"
+      SELECT * FROM vaultkeeps vk
+        INNER JOIN keeps k ON k.id = vk.keepId
+        WHERE vaultId = @vaultId AND vk.userId = @userId;", new { vaultId, userId });
+    }
+
     public IEnumerable<VaultKeep> GetVaultKeeps()
     {
       return _db.Query<VaultKeep>("SELECT * FROM vaultkeeps");
-    }
-
-    public VaultKeep GetVaultKeepById(int id)
-    {
-      return _db.QueryFirstOrDefault<VaultKeep>("SELECT * FROM vaultkeeps WHERE id = @id", new { id });
-    }
-
-    public VaultKeep CreateVaultKeep(VaultKeep vaultKeep)
-    {
-      var id = _db.ExecuteScalar<int>(@"
-      INSERT INTO vaultkeeps (vaultid, keepid)
-      VALUES (@VaultId, @KeepId);
-      SELECT LAST_INSERT_ID();
-      ", vaultKeep);
-      // vaultKeep.UserId = HttpContext.User.FindFirstValue("Id");
-      vaultKeep.Id = id;
-      return vaultKeep;
     }
     public void DeleteVaultKeep(int id)
     {
@@ -47,6 +58,5 @@ namespace keepr.Repositories
         throw new Exception("Delete failed");
       }
     }
-
   }
 }

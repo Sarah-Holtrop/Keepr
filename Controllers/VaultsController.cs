@@ -22,9 +22,9 @@ namespace keepr.Controllers
     [HttpGet]
     public ActionResult<IEnumerable<Vault>> Get()
     {
+      string userId = HttpContext.User.FindFirstValue("Id");
       try
       {
-        string userId = HttpContext.User.FindFirstValue("Id");
         return Ok(_repo.GetVaults(userId));
       }
       catch (Exception e)
@@ -61,6 +61,7 @@ namespace keepr.Controllers
         return BadRequest("Bad Request");
       }
     }
+
     // delete, might need to refactor to use userId
     [HttpDelete("{id}")]
     public ActionResult<string> Delete(int id)

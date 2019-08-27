@@ -23,6 +23,7 @@ namespace keepr.Controllers
     [HttpGet]
     public ActionResult<IEnumerable<Keep>> Get()
     {
+
       try
       {
         return Ok(_repo.GetKeeps());
@@ -34,18 +35,18 @@ namespace keepr.Controllers
       }
     }
     // Get by Id
-    [HttpGet("{id}")]
-    public ActionResult<Keep> Get(int id)
-    {
-      try
-      {
-        return Ok(_repo.GetKeepById(id));
-      }
-      catch (Exception e)
-      {
-        return BadRequest(e.Message);
-      }
-    }
+    // [HttpGet("{id}")]
+    // public ActionResult<Keep> Get(int id)
+    // {
+    //   try
+    //   {
+    //     return Ok(_repo.GetKeepById(id));
+    //   }
+    //   catch (Exception e)
+    //   {
+    //     return BadRequest(e.Message);
+    //   }
+    // }
     [Authorize]
     // post, might need to refactor for posting with userId?
     [HttpPost]
@@ -81,6 +82,7 @@ namespace keepr.Controllers
       }
       return Ok("Successfully Deleted");
     }
+
     // Need getKeepsByVaultId or something, but need to figure out table join first
   }
 }
