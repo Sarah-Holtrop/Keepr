@@ -31,8 +31,8 @@ namespace keepr.Repositories
     public VaultKeep AddKeepToVault(VaultKeep vaultKeep)
     {
       int id = _db.ExecuteScalar<int>(@"
-      INSERT INTO vaultkeeps (vaultId, keepId, userId)
-      VALUES (@VaultId, @KeepId, @UserId);
+      INSERT INTO vaultkeeps (keepId, userId, vaultId)
+      VALUES (@KeepId, @UserId, @VaultId);
       SELECT LAST_INSERT_ID();
       ", vaultKeep);
       vaultKeep.Id = id;
@@ -58,5 +58,9 @@ namespace keepr.Repositories
         throw new Exception("Delete failed");
       }
     }
+    // public IEnumerable<Keep> GetKeepsByUserId(string userId)
+    // {
+    //   return _db.Query<Keep>("SELECT * FROM vaultkeeps WHERE userId = @userId", new { userId });
+    // }
   }
 }

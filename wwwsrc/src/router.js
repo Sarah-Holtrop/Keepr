@@ -6,7 +6,10 @@ import Home from './views/Home.vue'
 import Login from './views/Login.vue'
 // @ts-ignore
 import ActiveVault from './views/ActiveVault.vue'
-
+// @ts-ignore
+import ActiveKeep from './views/ActiveKeep.vue'
+// @ts-ignore
+import AllPublicKeeps from './views/AllPublicKeeps.vue'
 
 Vue.use(Router)
 
@@ -23,9 +26,19 @@ export default new Router({
       component: Login
     },
     {
-      path: '/:vId',
+      path: '/vaults/:vId',
       name: 'ActiveVault',
       component: ActiveVault
+    },
+    {
+      path: '/keeps/:kId',
+      name: 'ActiveKeep',
+      component: ActiveKeep
+    },
+    {
+      path: '/all',
+      name: 'AllPublicKeeps',
+      component: AllPublicKeeps
     }
   ]
 })

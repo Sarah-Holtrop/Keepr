@@ -2,9 +2,19 @@
   <div class="vaultKeep">
     <div class="row">
       <div class="col" v-for="vk in vaultKeeps">
-        <h4>{{vk.name}}</h4>
-        <img :src="vk.img" alt="vague image">
-        <p>{{vk.views}}</p>
+        <div class="card">
+          <div class="card-header">
+            <h4>{{vk.name}}</h4>
+          </div>
+          <div class="card-body">
+            <img :src="vk.img" alt="vague image" class="thumbnail">
+          </div>
+          <div class="card-footer">
+            <p>views: {{vk.views}} || keeps: {{vk.keeps}} || shares: {{vk.shares}}</p>
+            <button class="btn btn-danger">Remove from Vault</button>
+            <!-- TODO remove from vault method -->
+          </div>
+        </div>
       </div>
     </div>
 

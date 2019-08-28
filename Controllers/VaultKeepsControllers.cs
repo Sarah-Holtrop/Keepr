@@ -70,7 +70,7 @@ namespace keepr.Controllers
       }
       catch (Exception e)
       {
-        return BadRequest("Cannot add keep to vault");
+        return BadRequest("Cannot add this keep to the vault.");
       }
     }
     // delete, might need to refactor to use userId
@@ -113,6 +113,20 @@ namespace keepr.Controllers
         return BadRequest(e.Message);
       }
     }
+    // [Authorize]
+    // [HttpGet("user")]
+    // public ActionResult<IEnumerable<Keep>> Get()
+    // {
+    //   string userId = HttpContext.User.FindFirstValue("Id");
+    //   try
+    //   {
+    //     return Ok(_repo.GetKeepsByUserId(userId));
+    //   }
+    //   catch (Exception e)
+    //   {
+    //     return BadRequest(e.Message);
+    //   }
+    // }
 
   }
 }

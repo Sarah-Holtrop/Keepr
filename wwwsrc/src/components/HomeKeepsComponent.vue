@@ -2,8 +2,15 @@
   <div class="HomeKeepsComponent">
     <div class="row">
       <div class="col" v-for="keep in keeps">
-        <h4>{{keep.name}}</h4>
-        <img class="image" :src="keep.img" alt="sharkos?">
+        <div class="card">
+          <div class="card-header">
+            <h4>{{keep.name}}</h4>
+          </div>
+          <div class="card-body">
+            <img class="image card-img-top" :src="keep.img" alt="sharkos?">
+
+          </div>
+        </div>
       </div>
     </div>
 

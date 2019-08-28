@@ -21,19 +21,19 @@ namespace keepr.Controllers
     }
     // Get all, for testing but probably won't actually need
     [HttpGet]
-    // public ActionResult<IEnumerable<Keep>> Get()
-    // {
+    public ActionResult<IEnumerable<Keep>> GetNotPrivateKeeps()
+    {
+      string userId = HttpContext.User.FindFirstValue("Id");
+      try
+      {
+        return Ok(_repo.GetNotPrivateKeeps());
+      }
+      catch (Exception e)
+      {
 
-    //   try
-    //   {
-    //     return Ok(_repo.GetKeeps());
-    //   }
-    //   catch (Exception e)
-    //   {
-
-    //     return BadRequest(e.Message);
-    //   }
-    // }
+        return BadRequest(e.Message);
+      }
+    }
     // Get by Id
     [HttpGet("{id}")]
     public ActionResult<Keep> Get(int id)
