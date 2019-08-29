@@ -74,31 +74,32 @@ namespace keepr.Controllers
       }
     }
     // delete, might need to refactor to use userId
-    [HttpDelete("{id}")]
-    public ActionResult<string> Delete(int id)
-    {
-      try
-      {
-        _repo.DeleteVaultKeep(id);
-        return Ok("Successfully Deleted");
-      }
-      catch (Exception e)
-      {
-        return BadRequest("Delete failed");
-      }
-    }
-    // [HttpGet]
-    // public ActionResult<IEnumerable<Keep>> Get()
+    // [HttpDelete("{id}")]
+    // public ActionResult<string> Delete(int id)
     // {
     //   try
     //   {
-    //     return Ok(_repo.GetVaultKeeps());
+    //     _repo.DeleteVaultKeep(id);
+    //     return Ok("Successfully Deleted");
     //   }
     //   catch (Exception e)
     //   {
-    //     return BadRequest(e.Message);
+    //     return BadRequest("Delete failed");
     //   }
     // }
+    [HttpGet]
+    public ActionResult<IEnumerable<Keep>> Get()
+    {
+      string userId = HttpContext.User.FindFirstValue("Id");
+      try
+      {
+        return Ok(_repo.GetVaultKeeps(userId));
+      }
+      catch (Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
 
     [HttpGet("{vaultId}")]
     public ActionResult<IEnumerable<Keep>> Get(int vaultId)
@@ -127,7 +128,22 @@ namespace keepr.Controllers
     //     return BadRequest(e.Message);
     //   }
     // }
+    [HttpPut]
+    public ActionResult<int> Put([FromBody]VaultKeep vaultKeep)
+    {
+      vaultKeep.UserId = HttpContext.User.FindFirstValue("Id");
 
+      try
+      {
+        _repo.DeleteVaultKeep(vaultKeep);
+        return Ok("Successfully Deleted");
+
+      }
+      catch (Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
   }
 }
 

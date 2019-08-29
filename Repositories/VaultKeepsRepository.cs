@@ -46,17 +46,30 @@ namespace keepr.Repositories
         WHERE vaultId = @vaultId AND vk.userId = @userId;", new { vaultId, userId });
     }
 
-    // public IEnumerable<VaultKeep> GetVaultKeeps()
-    // {
-    //   return _db.Query<VaultKeep>("SELECT * FROM vaultkeeps");
-    // }
-    public void DeleteVaultKeep(int id)
+    public IEnumerable<VaultKeep> GetVaultKeeps(string userId)
     {
-      var success = _db.Execute("DELETE FROM vaultkeepss WHERE id = @id", new { id });
-      if (success != 1)
+      return _db.Query<VaultKeep>("SELECT * FROM vaultkeeps WHERE userId=@UserId", new { userId });
+    }
+    public void DeleteVaultKeep(VaultKeep vaultKeep)
+    {
+      try
       {
-        throw new Exception("Delete failed");
+        int vaultId = vaultKeep.VaultId;
+        int keepId = vaultKeep.KeepId;
+        string userId = vaultKeep.UserId;
+        var success = _db.Execute("DELETE FROM vaultkeeps WHERE vaultId = @vaultId AND keepId = @keepId AND userId = @userId", new { vaultId, keepId, userId });
+
       }
+      catch (Exception e)
+      {
+
+        throw e;
+      }
+      // vaultKeep.Id = ;
+      // if (success != 1)
+      // {
+      //   throw new Exception();
+      // }
     }
     // public IEnumerable<Keep> GetKeepsByUserId(string userId)
     // {
