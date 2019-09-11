@@ -1,6 +1,6 @@
 <template>
   <div class="ActiveVault">
-    <h1>W E L C O M E T O T H E V A U L T</h1>
+    <router-link :to="{name: 'home'}">Dashboard</router-link>
     <div class="row">
       <div class="col">
         <h2>{{activeVault.name}}</h2>

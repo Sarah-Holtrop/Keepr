@@ -1,7 +1,6 @@
 <template>
   <div class="vaultKeep">
     <div class="row">
-      <!-- <div v-for="vkd in vaultKeepDatas"> -->
       <div class="col" v-for="vk in vaultKeeps">
         <div class="card">
           <div class="card-header">
@@ -14,11 +13,9 @@
             <p>views: {{vk.views}} || keeps: {{vk.keeps}} || shares: {{vk.shares}}</p>
             <button @click="removeFromVault(vk)" class="btn btn-danger">Remove from
               Vault</button>
-            <!-- TODO remove from vault method, NOT a delete method(maybe try a delete to make sure my auth works) -->
           </div>
         </div>
       </div>
-      <!-- </div> -->
     </div>
 
 

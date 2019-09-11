@@ -23,7 +23,7 @@ export default new Vuex.Store({
     userVaults: [],
     activeVault: {},
     vaultKeeps: [],
-    vaultKeepDatas: []
+    vaultKeepDatas: [] //NOTE not using this
 
   },
   mutations: {
@@ -125,6 +125,7 @@ export default new Vuex.Store({
         console.log(payload.views)
         payload.views += 1
         console.log(payload.views)
+        //TODO you should fire off a put request here
 
       } catch (error) {
         console.error(error)

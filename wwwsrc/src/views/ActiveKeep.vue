@@ -1,31 +1,37 @@
 <template>
   <div class="ActiveKeep">
+    <router-link :to="{name: 'home'}">Dashboard</router-link>
     <div class="row">
       <div class="col">
-        <h1>{{activeKeep.name}}</h1>
-        <h4>{{activeKeep.description}}</h4>
-        <img :src="activeKeep.img" alt="keep image">
-        <p>Keeps: {{activeKeep.keeps}} || Shares: {{activeKeep.shares}} || Views: {{activeKeep.views}}</p>
-        <div class="btn-group dropright">
-          <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">Add to vault</button>
-          <div class="dropdown-menu">
-            <li v-for="vault in userVaults">
-              <a class="dropdown-item" href="#">{{vault.name}}</a>
-            </li>
+        <div class="card">
+          <div class="card-header">
+            <h1 class="card-header">{{activeKeep.name}}</h1>
           </div>
-        </div>
-        <!-- #### -->
-        <div v-for="vault in userVaults">
-          <hr>
-          <p>{{vault.name}}</p>
-          <button @click="addToVault(vault.id, activeKeep.id)">Add to this vault!</button>
-
-          <hr>
+          <div class="card-body">
+            <h4>{{activeKeep.description}}</h4>
+            <img :src="activeKeep.img" alt="keep image">
+          </div>
+          <div class="card-footer">
+            <div class="row">
+              <div class="col-2">
+                <div class="btn-group dropright">
+                  <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">Add to
+                    vault</button>
+                  <div class="dropdown-menu">
+                    <li v-for="vault in userVaults">
+                      <a class="dropdown-item" @click="addToVault(vault.id, activeKeep.id)" href="#">{{vault.name}}</a>
+                    </li>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <p>Keeps: {{activeKeep.keeps}} || Shares: {{activeKeep.shares}} || Views: {{activeKeep.views}}</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-
   </div>
 </template>
 
@@ -65,7 +71,7 @@
           keepId: keepid
         }
         this.$store.dispatch("addKeepToVault", newVaultKeep)
-        // console.log(newVaultKeep)
+
       }
     },
     components: {}

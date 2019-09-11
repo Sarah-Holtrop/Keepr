@@ -39,23 +39,23 @@ namespace keepr.Repositories
       return keep;
     }
     // messing around with counting views on a keep, has not been tested, just an idea
-    // public Keep ViewKeep(int id)
-    // {
-    //   Keep viewedkeep = GetKeepById(id);
-
-    //   viewedkeep.Views += 1;
-    //   // will have to add views into keep.cs model
-    //   viewedkeep = _db.ExecuteScalar<Keep>(@"
-    //   UPDATE keeps SET 
-    //   viewedkeep 
-    //   WHERE id = @id", new { id });
-    //   return viewedkeep;
-    //   // not sure if line 43 i can just insert a new keep into this table slot like this, might need to do like age: instead of 81, use a variable that increments up by 1?
-    //   // -- UPDATE cats SET
-    //   // -- name = "Sylvester Sr.",
-    //   // --age = 81
-    //   // -- WHERE ID = 4;
-    // }
+    public Keep ViewKeep(int id)
+    {
+      Keep viewedkeep = GetKeepById(id);
+      if (viewedkeep is null) throw new Exception("Couldn't find a keep with this id: " + id);
+      viewedkeep.Views += 1;
+      // will have to add views into keep.cs model
+      viewedkeep = _db.ExecuteScalar<Keep>(@"
+      UPDATE keeps SET 
+      views = @Views 
+      WHERE id = @Id", viewedkeep);
+      return viewedkeep;
+      // not sure if line 43 i can just insert a new keep into this table slot like this, might need to do like age: instead of 81, use a variable that increments up by 1?
+      // -- UPDATE cats SET
+      // -- name = "Sylvester Sr.",
+      // --age = 81
+      // -- WHERE ID = 4;
+    }
 
     // Also to make things more simplistic once a keep is marked public it can no longer be deleted.
     // do deletingkeep = GetKeepById first, then if (deletingkeep.isPrivate), then carry on with delete

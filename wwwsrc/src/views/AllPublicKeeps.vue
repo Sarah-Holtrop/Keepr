@@ -1,5 +1,6 @@
 <template>
   <div class="AllPublicKeeps">
+    <router-link :to="{name: 'home'}">Dashboard</router-link>
     <h1>All Keeps</h1>
     <div class="row">
       <div class="col-4" v-for="keep in publicKeeps">
